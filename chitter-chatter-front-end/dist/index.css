@@ -1,0 +1,72 @@
+body, html{
+    background-color: white;
+    margin:0;
+    height:100vh;
+}
+.grid-container{
+    display: grid;
+    grid-template-columns: 75% 25%;
+    grid-template-rows: 10% 83% 7%;
+    grid-template-areas: 
+    "userButtons userButtons"
+    "animationBox chatBox"
+    "userForm userForm";
+    height:100%;
+    padding:0;
+}
+.user-container{
+    background: blue;
+    grid-area: userButtons;
+}
+.chat-form{
+    border: 2px black solid;
+    background-color: red;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content: space-between;
+    align-items: center;
+    grid-area: userForm;
+}
+.chat-box{
+    border: 2px black solid;
+    background-color: green;
+    grid-area: chatBox;
+}
+.animation-box{
+    border: 2px black solid;
+    background-color: greenyellow;
+    grid-area: animationBox;
+}
+.user-edit-buttons{
+    display:inline;
+    text-align:right;
+    font-size:24px;
+}
+.user-edit-buttons button{
+    font-size:24px;
+}
+.message-input-js, .submit-message-js, .username-label{
+    font-size:24px;
+}
+.message-form{
+    display:inline;
+}
+.user-login-form{
+    font-size: 24px;
+    text-align: center;
+    border: 5px solid black;
+    border-radius:15px;
+}
+.display-modal{
+    display: block;
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-77%) translateY(-50%);
+    z-index: 12;
+    background-color: white;
+    min-height: 200px;
+}
+
