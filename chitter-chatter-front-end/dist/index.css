@@ -14,9 +14,48 @@ body, html{
     height:100%;
     padding:0;
 }
+/* animation box */
+.animation-box{
+    border: 2px black solid;
+    background-color: greenyellow;
+    grid-area: animationBox;
+}
+
+/* user button container*/
 .user-container{
     background: blue;
     grid-area: userButtons;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* chat box*/
+.chat-box{
+    border: 2px black solid;
+    background-color: green;
+    grid-area: chatBox;
+    display:flex;
+}
+
+
+/* message input form  */
+.user-edit-buttons{
+    display:inline;
+    text-align:right;
+    font-size:24px;
+}
+.user-edit-buttons button{
+    font-size:1.3rem;
+    margin: 5px;
+}
+.message-input-js, .submit-message-js, .username-label{
+    font-size:1.3rem;
+}
+.message-form{
+    display:inline;
 }
 .chat-form{
     border: 2px black solid;
@@ -28,45 +67,46 @@ body, html{
     align-items: center;
     grid-area: userForm;
 }
-.chat-box{
-    border: 2px black solid;
-    background-color: green;
-    grid-area: chatBox;
-}
-.animation-box{
-    border: 2px black solid;
-    background-color: greenyellow;
-    grid-area: animationBox;
-}
-.user-edit-buttons{
-    display:inline;
-    text-align:right;
-    font-size:24px;
-}
-.user-edit-buttons button{
-    font-size:24px;
-}
-.message-input-js, .submit-message-js, .username-label{
-    font-size:24px;
-}
-.message-form{
-    display:inline;
-}
-.user-login-form{
-    font-size: 24px;
+
+
+/* login forms */
+
+.user-login-form, .user-edit-form {
     text-align: center;
     border: 5px solid black;
     border-radius:15px;
 }
+.user-login-form{
+    font-size: 1.3rem;
+}
+.user-edit-form{
+    font-size: 1.3rem;
+}
+.user-edit-form input[type=text], .user-login-form input[type=text]{
+    font-size: 1.3rem;
+    text-align:center;
+    margin-bottom: 10px;
+}
+
+
 .display-modal{
-    display: block;
-    position: absolute;
-    width: 50%;
+    /* position: absolute;
+    width: 42%;
     top: 50%;
     left: 50%;
-    transform: translateX(-77%) translateY(-50%);
+    transform: translateX(-77%) translateY(-50%);  */
     z-index: 12;
     background-color: white;
     min-height: 200px;
+    opacity:1;
+    transition:all ease 500ms;
+    transform-origin: bottom center;
+
 }
 
+.form-hidden{
+    opacity:0;
+}
+.form-none{
+    display:none;
+}

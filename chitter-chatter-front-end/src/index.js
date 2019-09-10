@@ -5,5 +5,7 @@
 // .then(alert);
 
 const loginForm = document.querySelector(".user-login-form");
-
-//loginForm.classList.add("display-modal");
+const editForm = document.querySelector(".user-edit-form");
+loginForm.classList.add("display-modal");
+loginForm.classList.remove("form-hidden");
+//editForm.classList.add("display-modal");

@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("//alert(\"I changed this!!\");\n\n// fetch(\"http://localhost:3000/users\")\n// .then(res => res.json())\n// .then(alert);\n\nconst loginForm = document.querySelector(\".user-login-form\");\n\nloginForm.classList.add(\"display-modal\");\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("//alert(\"I changed this!!\");\n\n// fetch(\"http://localhost:3000/users\")\n// .then(res => res.json())\n// .then(alert);\n\nconst loginForm = document.querySelector(\".user-login-form\");\nconst editForm = document.querySelector(\".user-edit-form\");\nloginForm.classList.add(\"display-modal\");\nloginForm.classList.remove(\"form-hidden\");\n//editForm.classList.add(\"display-modal\");\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
