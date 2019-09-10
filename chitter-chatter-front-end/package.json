@@ -4,10 +4,10 @@
   "description": "",
   "private": "true",
   "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "watch": "webpack --watch",
-      "start": "webpack-dev-server --open",
-      "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "paper": "^0.12.3"
   }
 }

@@ -5,13 +5,51 @@
         <title>Chitter-Chatter</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="paper-full.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
         <link rel="stylesheet" href="index.css">
+        <script defer type="text/paperscript" canvas="myCanvas">
+        
+         
+        var circles = [];
+            
+        function onKeyDown(event) {
+        	if (true) {
+                // generate random point
+	            var maxPoint = new Point(view.size.width, view.size.height);
+	            var randomPoint = Point.random();
+	            var point = maxPoint * randomPoint;
+	            var newCircle = new Path.Circle(point, 400);
+	        	newCircle.fillColor = "blue";
+        	} 
+            // add a new circle to the circles array to draw
+            circles.push(newCircle);
+        }
+        function onFrame(event) {
+        	// animate the hue and the scale of circles
+        	for (i = 0; i < circles.length; i++) {
+        		circles[i].fillColor.hue +=1;
+        		circles[i].scale(.9);
+                // delete the dimished circles from the array
+                if(circles[i].area < 1){
+                  circles[i].remove();
+                  circles.splice(i, 1);
+                }
+        	}
+        }
+        
+        </script>
     </head>
     <body>
         <div class="grid-container">
             <div class="user-container-css" id="user-container-js">
+                <h1 class="title-heading animated infinite tada">Chitter-Chatter</h1>
             </div>
+
+            <div class="animation-box">
+                <canvas id="myCanvas" resize></canvas>
+            </div>
+
             <div class="chat-box">
                 <div class="chatting-with" id="chatting-with-js"></div>
                 <div class="chat-messages-css" id= "chat-messages-js">     
@@ -47,9 +85,6 @@
                         <input type="submit" value="Register">
                     </form>
                 </div>
-            </div>
-            <div class="animation-box">
-                <p>animation-box</p>
             </div>
             <div class="chat-form">
                 <div class="form-left">

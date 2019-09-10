@@ -4,9 +4,11 @@ const loginFormDiv = document.querySelector(".user-login-form-div-css");
 const editFormDiv = document.querySelector(".user-edit-form-div-css");
 const loginFormName = document.querySelector("#login-username-input")
 const loginForm = document.querySelector(".login-form-js");
+
 //User-Container-Vars
 const userContainer = document.querySelector("#user-container-js")
-//Register
+
+//RegisterForm
 const registerForm = document.querySelector(".register-form")
 const registerFormName = document.querySelector("#register-username-input")
 const registerFormImage = document.querySelector("#register-icon-input")
@@ -45,6 +47,7 @@ function handleMessage(event){
     }
 
 }
+
 function sendMessage(){
     fetch(messagesUrl, {
         method: "POST",
@@ -152,6 +155,7 @@ function addRecievedMessageToChat(message) {
 // Generate User Icons
 
 function generateUserIcons(data){
+    userContainer.innerHTML = "";
     data.forEach(user =>{
         userContainer.innerHTML += `<div data-user-id=${user.id} class="user-card user-card-js user-card-div">
     <img data-user-id=${user.id} class="user-card-icon user-card-js" src="${user.icon_url}">
@@ -184,7 +188,10 @@ function handleLogin(event){
         if (userObj){assignUsername(userObj)}
         else {alert("Username does not exist")}
     })
-    .then(e => hideForm(loginFormDiv))
+    .then(e => {
+        hideForm(loginFormDiv)
+        getUsers();
+    })
 }
 
 function handleRegister(event){
@@ -233,4 +240,3 @@ function hideForm(form){
 }
 
 displayForm(loginFormDiv);
-getUsers();
