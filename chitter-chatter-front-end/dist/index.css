@@ -51,7 +51,7 @@ body, html{
     font-size:1.3rem;
     margin: 5px;
 }
-.message-input-js, .submit-message-js, .username-label{
+.message-input-js, .submit-message-js, .username-message-form{
     font-size:1.3rem;
 }
 .message-form{
@@ -67,22 +67,27 @@ body, html{
     align-items: center;
     grid-area: userForm;
 }
+.user-image-css{
+    width: 4%;
+    height: auto;
+    border-radius: 40px;
+}
 
 
 /* login forms */
 
-.user-login-form, .user-edit-form {
+.user-login-form-div-css, .user-edit-form-div-css {
     text-align: center;
     border: 5px solid black;
     border-radius:15px;
 }
-.user-login-form{
+.user-login-form-div-css{
     font-size: 1.3rem;
 }
-.user-edit-form{
+.user-edit-form-div-css{
     font-size: 1.3rem;
 }
-.user-edit-form input[type=text], .user-login-form input[type=text]{
+.user-edit-form-div-css input[type=text], .user-login-form-div-css input[type=text]{
     font-size: 1.3rem;
     text-align:center;
     margin-bottom: 10px;
@@ -99,7 +104,7 @@ body, html{
     background-color: white;
     min-height: 200px;
     opacity:1;
-    transition:all ease 500ms;
+    transition:all ease 2000ms;
     transform-origin: bottom center;
 
 }

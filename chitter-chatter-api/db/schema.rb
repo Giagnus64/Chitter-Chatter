@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2019_09_09_153647) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "icon_url"
+    t.string "icon_url", default: "https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

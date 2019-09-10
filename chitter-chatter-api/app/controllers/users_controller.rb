@@ -4,7 +4,7 @@ class UsersController < ApplicationController
         options = {   
             except: [:created_at, :updated_at]
         }
-        render json: UserSerializer.new(users).json_multiple_users(options)
+        render json: users.to_json(options)
     end
     
     def show

@@ -17,17 +17,26 @@
                 </div>
             </div>
             <div class="chat-box">
-                <div class="user-login-form form-hidden display-modal">
+                <div class="user-login-form-div-css form-hidden display-modal">
                     <h2 class="form-header">Login</h2>
-                    <form action="">
-                            <label for="username">Username:</label>
-                            <input type="text" name="username">
+                    <form class="login-form-js">
+                        <label for="username">Username:</label>
+                        <input type="text" name="username" id="login-username-input">
                         <input type="submit" value="Login">
+                        <br>
+                    </form>
+                    <h3>OR</h3>
+                    <form class="register-form">
+                        <label for="new-username">Username:</label>
+                        <input type="text" name="new-username" id="register-username-input">
+                        <label for="icon_url">Icon URL:</label>
+                        <input type="text" name="icon_url" id="register-icon-input">
+                        <input type="submit" value="Register" id="register-submit-button">
                     </form>
                 </div>
-                <div class="user-edit-form form-hidden display-modal form-none">
+                <div class="user-edit-form-div-css form-hidden display-modal form-none">
                     <h2 class="form-header">Register</h2>
-                    <form action="">
+                    <form class="edit-form-js">
                         <div class="username-input-edit">
                             <label for="username">Username:</label>
                             <input type="text" name="username">
@@ -45,7 +54,8 @@
             </div>
             <div class="chat-form">
                 <form class="message-form" action="">
-                    <span class="username-label">USER:</span>
+                    <img class="user-image-css" id="current-user-image" src="https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg" alt="">
+                    <span class="username-message-form">USER:</span>
                     <input class="message-input-js" type="text" name="message">
                     <input class="submit-message-js" type="submit" value="Send Message">
                 </form> 
