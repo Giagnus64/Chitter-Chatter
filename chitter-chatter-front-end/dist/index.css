@@ -6,7 +6,7 @@ body, html{
 .grid-container{
     display: grid;
     grid-template-columns: 75% 25%;
-    grid-template-rows: 10% 83% 7%;
+    grid-template-rows: 13% 80% 7%;
     grid-template-areas: 
     "userButtons userButtons"
     "animationBox chatBox"
@@ -34,19 +34,25 @@ body, html{
 .user-card{
     border-radius: 40px;
     background-color:skyblue;
-    display:flex;
+    display: flex;
+    /* recenter*/
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 80px;
+    min-height: 90px;
 }
 .user-card-icon{
     width: 40px;
     height: 40px;
-    border-radius:40px;
+    border-radius:30px;
+    border: 2px inset rgba(0,0,0,0.3);
 }
 .user-card p{
    margin:0;
-   font-size: 18px;
+   font-size: 1.1rem;
    font-weight: 700;
-  
+   color: white;
 }
 
 /* chat box*/
