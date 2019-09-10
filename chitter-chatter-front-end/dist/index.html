@@ -13,6 +13,9 @@
             <div class="user-container-css" id="user-container-js">
             </div>
             <div class="chat-box">
+                <div class="chatting-with" id="chatting-with-js"></div>
+                <div class="chat-messages-css" id= "chat-messages-js">     
+                </div>
                 <div class="user-login-form-div-css form-hidden">
                     <h2 class="form-header">Login</h2>
                     <form class="login-form-js">
@@ -50,12 +53,13 @@
             </div>
             <div class="chat-form">
                 <div class="form-left">
-                    <form class="message-form" action="">
+                    <form class="message-form" id="message-form-js" action="">
                         <img class="user-image-css" id="current-user-image"
                             src="https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg" alt="">
                         <span class="username-message-form">USER:</span>
-                        <input class="message-input-js" type="text" name="message">
-                        <input class="submit-message-js" type="submit" value="Send Message">
+                        <input class="message-input-css" id="message-input-js" type="text" name="message">
+                        <input class="submit-message-css" type="submit" value="Send Message">
+                        
                     </form> 
                 </div>
                 <div class="user-edit-buttons">
@@ -63,10 +67,7 @@
                 </div>
             </div>
         </div>
-        
-        
-            
-      
+
         <script src="main.js"defer></script>
     </body>
 </html>

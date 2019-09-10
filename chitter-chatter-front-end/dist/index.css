@@ -58,7 +58,7 @@ body, html{
 /* chat box*/
 .chat-box{
     border: 2px black solid;
-    background-color: green;
+    background-color: gray;
     grid-area: chatBox;
     display:flex;
 }
@@ -74,7 +74,7 @@ body, html{
     font-size:1.3rem;
     margin: 5px;
 }
-.message-input-js, .submit-message-js, .username-message-form{
+.message-input-css, .submit-message-css, .username-message-form{
     font-size:1.3rem;
 }
 .message-form{ 
