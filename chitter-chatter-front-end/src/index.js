@@ -1,20 +1,64 @@
 // DOM vars
+//Login/Edit/Register Vars
 const loginFormDiv = document.querySelector(".user-login-form-div-css");
 const editFormDiv = document.querySelector(".user-edit-form-div-css");
 const usernameDisplay = document.querySelector(".username-message-form");
 const currentUserImage = document.querySelector("#current-user-image");
 const loginFormName = document.querySelector("#login-username-input")
 const loginForm = document.querySelector(".login-form-js");
+
 // Event Listeners
 const registerForm = document.querySelector(".register-form")
 const registerFormName = document.querySelector("#register-username-input")
 const registerFormImage = document.querySelector("#register-icon-input")
 
+
+//User-Container-Vars
+const userContainer = document.querySelector("#user-container-js")
+
+
+
+
 loginForm.addEventListener('submit', handleLogin)
 registerForm.addEventListener('submit', handleRegister)
 
 // Functions
+// Generate User Icons
 
+function generateUserIcons(data){
+    data.forEach(user =>{
+        userContainer.innerHTML += `<div data-user-id=${user.id} class="user-card">
+    <img class="user-card-icon" src="${user.icon_url}">
+    <p class="user-card-username">${user.username}</p>
+        </div>`
+    })
+    
+}
+
+function getUsers(){
+    fetch("http://localhost:3000/users")
+    .then(res => res.json())
+    .then(data => generateUserIcons(data))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Login/Register Users & Forms
 function handleLogin(event){
     event.preventDefault();
     const usernameEntered = loginFormName.value 
@@ -67,14 +111,15 @@ function assignUsername(userObj){
   usernameDisplay.innerText = userObj.username
 }
 
-function displayForm(){
-    loginFormDiv.classList.add("display-modal");
-    loginFormDiv.classList.remove("form-hidden");
-    //editForm.classList.add("display-modal");
+function displayForm(form){
+    form.classList.remove("form-none");
+    form.classList.add("display-modal");
 }
 
 function hideForm(form){
-    form.classList.add("form-none")
+    form.classList.add("form-none");
+    form.classList.remove("display-modal");
 }
 
-displayForm();
+displayForm(loginFormDiv);
+getUsers();

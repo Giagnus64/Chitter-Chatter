@@ -22,14 +22,31 @@ body, html{
 }
 
 /* user button container*/
-.user-container{
-    background: blue;
+.user-container-css{
+    background: white;
     grid-area: userButtons;
     display:flex;
     flex-direction:row;
     flex-wrap:nowrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+}
+.user-card{
+    border-radius: 40px;
+    background-color:skyblue;
+    display:flex;
+    flex-direction: column;
+}
+.user-card-icon{
+    width: 40px;
+    height: 40px;
+    border-radius:40px;
+}
+.user-card p{
+   margin:0;
+   font-size: 18px;
+   font-weight: 700;
+  
 }
 
 /* chat box*/
@@ -54,8 +71,10 @@ body, html{
 .message-input-js, .submit-message-js, .username-message-form{
     font-size:1.3rem;
 }
-.message-form{
-    display:inline;
+.message-form{ 
+    display:flex;
+    flex-direction:row;
+    align-items:center;
 }
 .chat-form{
     border: 2px black solid;
@@ -68,9 +87,12 @@ body, html{
     grid-area: userForm;
 }
 .user-image-css{
-    width: 4%;
+    display: inline;
+    width: 40px;
     height: auto;
     border-radius: 40px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 
@@ -93,7 +115,12 @@ body, html{
     margin-bottom: 10px;
 }
 
-
+.form-hidden{
+    opacity:0;
+}
+.form-none{
+    display:none;
+}
 .display-modal{
     /* position: absolute;
     width: 42%;
@@ -109,9 +136,3 @@ body, html{
 
 }
 
-.form-hidden{
-    opacity:0;
-}
-.form-none{
-    display:none;
-}
