@@ -1,3 +1,5 @@
+import { Howl, Howler } from 'howler';
+
 // DOM vars
 //Login/Edit/Register Vars
 const loginFormDiv = document.querySelector(".user-login-form-div-css");
@@ -269,8 +271,10 @@ function hideForm(form){
 
 function handleEdit(event){
     const currUser = usernameDisplay.dataset.currentUserId
-    displayForm(editFormDiv);
-    fillEditForm();
+    if(currUser){
+        displayForm(editFormDiv);
+        fillEditForm();
+    }
 }
 function fillEditForm(){
     const usernameColon = usernameDisplay.textContent;
@@ -314,14 +318,16 @@ function sendEditToDb(currUser, newUsername, newIcon){
 
 function deleteUser(){
     const currUser = usernameDisplay.dataset.currentUserId
-    fetch(usersUrl + `/${currUser}`, {
-        method: "DELETE"   
-    })
-    .then(res => res.json())
-    .then(data =>{
-        logoutUser();
-    })
-    .catch(err => alert(err));
+    if(currUser){
+        fetch(usersUrl + `/${currUser}`, {
+            method: "DELETE"   
+        })
+        .then(res => res.json())
+        .then(data =>{
+            logoutUser();
+        })
+        .catch(err => alert(err));
+    }
 }
 function logoutUser(){
     usernameDisplay.dataset.currentUserId = null;
@@ -334,6 +340,175 @@ function resetForms(){
     loginForm.reset();
     editForm.reset();
     registerForm.reset();
+}
+
+
+//Sound functions
+
+document.addEventListener('keypress', checkKey);
+
+function checkKey(event){
+ if(keyData[event.key]){
+     keyData[event.key].sound.play();
+ }
+}
+
+const keyData = {
+    q: {
+        sound: new Howl({
+            src: [require('./sounds/bubbles.mp3')]
+        })
+        
+    },
+    w: {
+        sound: new Howl({
+            src: [require('./sounds/clay.mp3')]
+        })
+        
+    },
+    e: {
+        sound: new Howl({
+            src: [require('./sounds/confetti.mp3')]
+        })
+        
+    },
+    r: {
+        sound: new Howl({
+            src: [require('./sounds/corona.mp3')]
+        })
+        
+    },
+    t: {
+        sound: new Howl({
+            src: [require('./sounds/dotted-spiral.mp3')]
+        })
+        
+    },
+    y: {
+        sound: new Howl({
+            src: [require('./sounds/flash-1.mp3')]
+        })
+        
+    },
+    u: {
+        sound: new Howl({
+            src: [require('./sounds/flash-2.mp3')]
+        })
+       
+    },
+    i: {
+        sound: new Howl({
+            src: [require('./sounds/flash-3.mp3')]
+        })
+        
+    },
+    o: {
+        sound: new Howl({
+            src: [require('./sounds/glimmer.mp3')]
+        })
+       
+    },
+    p: {
+        sound: new Howl({
+            src: [require('./sounds/moon.mp3')]
+        })
+        
+    },
+    a: {
+        sound: new Howl({
+            src: [require('./sounds/pinwheel.mp3')]
+        })
+        
+    },
+    s: {
+        sound: new Howl({
+            src: [require('./sounds/piston-1.mp3')]
+        })
+        
+    },
+    d: {
+        sound: new Howl({
+            src: [require('./sounds/piston-2.mp3')]
+        })
+        
+    },
+    f: {
+        sound: new Howl({
+            src: [require('./sounds/prism-1.mp3')]
+        })
+        
+    },
+    g: {
+        sound: new Howl({
+            src: [require('./sounds/prism-2.mp3')]
+        })
+        
+    },
+    h: {
+        sound: new Howl({
+            src: [require('./sounds/prism-3.mp3')]
+        })
+        
+    },
+    j: {
+        sound: new Howl({
+            src: [require('./sounds/splits.mp3')]
+        })
+        
+    },
+    k: {
+        sound: new Howl({
+            src: [require('./sounds/squiggle.mp3')]
+        })
+    },
+    l: {
+        sound: new Howl({
+            src: [require('./sounds/strike.mp3')]
+        })
+       
+    },
+    z: {
+        sound: new Howl({
+            src: [require('./sounds/suspension.mp3')]
+        })
+        
+    },
+    x: {
+        sound: new Howl({
+            src: [require('./sounds/timer.mp3')]
+        })
+       
+    },
+    c: {
+        sound: new Howl({
+            src: [require('./sounds/ufo.mp3')]
+        })
+       
+    },
+    v: {
+        sound: new Howl({
+            src: [require('./sounds/veil.mp3')]
+        })
+        
+    },
+    b: {
+        sound: new Howl({
+            src: [require('./sounds/wipe.mp3')]
+        })
+        
+    },
+    n: {
+        sound: new Howl({
+            src: [require('./sounds/zig-zag.mp3')]
+        })
+        
+    },
+    m: {
+        sound: new Howl({
+            src: [require('./sounds/moon.mp3')]
+        })
+        
+    }
 }
 
 displayForm(loginFormDiv);

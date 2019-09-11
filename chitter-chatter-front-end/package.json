@@ -12,11 +12,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "file-loader": "^4.2.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
+    "howler": "^2.1.2",
     "paper": "^0.12.3"
   }
 }
