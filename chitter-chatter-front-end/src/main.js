@@ -45,7 +45,8 @@ userContainer.addEventListener("click", createChat);
 messageForm.addEventListener('submit', handleMessage);
 editUserBtn.addEventListener('click', handleEdit);
 editForm.addEventListener('submit', editUser);
-
+deleteUserBtn.addEventListener('click', deleteUser);
+logoutBtn.addEventListener('click', logoutUser);
 
 // Functions
 //message form functions
@@ -253,6 +254,7 @@ function assignUsername(userObj){
 }
 
 function displayForm(form){
+    resetForms();
     chattingWith.innerHTML = "";
     chatBoxMessages.innerHTML = "";
     form.classList.remove("form-none");
@@ -260,6 +262,7 @@ function displayForm(form){
 }
 
 function hideForm(form){
+    resetForms();
     form.classList.remove("display-modal");
     form.classList.add("form-none");
 }
@@ -309,4 +312,29 @@ function sendEditToDb(currUser, newUsername, newIcon){
         .catch(err => alert(err));
 }
 
+function deleteUser(){
+    const currUser = usernameDisplay.dataset.currentUserId
+    fetch(usersUrl + `/${currUser}`, {
+        method: "DELETE"   
+    })
+    .then(res => res.json())
+    .then(data =>{
+        logoutUser();
+    })
+    .catch(err => alert(err));
+}
+function logoutUser(){
+    usernameDisplay.dataset.currentUserId = null;
+    currentUserImage.src = defaultUrl
+    usernameDisplay.innerText = "USER" + ":"
+    userContainer.innerHTML = `<h1 class="title-heading animated infinite tada">Chitter-Chatter</h1>`;
+    displayForm(loginFormDiv);
+}
+function resetForms(){
+    loginForm.reset();
+    editForm.reset();
+    registerForm.reset();
+}
+
 displayForm(loginFormDiv);
+ 
