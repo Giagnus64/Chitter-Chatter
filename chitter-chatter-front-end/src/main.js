@@ -32,7 +32,8 @@ const chatBox = document.querySelector(".chat-box-js");
 const usernameDisplay = document.querySelector(".username-message-form");
 const currentUserImage = document.querySelector("#current-user-image");
 const messageForm = document.querySelector("#message-form-js");
-const messageInput = document.querySelector("#message-input-js");
+const messageInput = document.querySelector("#message-input-js")
+let currentInterval
 
 
 //Other Vars
@@ -91,18 +92,31 @@ function createChat(event){
         addIconToChat(event);
         getMessages(chattingUser);
     }
+    if (event.target.classList.contains("animated")){
+      document.querySelector("#user-container-js").querySelector(`[data-user-id='${event.target.dataset.userId}']`).classList.remove("animated", "infinite", "bounce")
+    }
 }
 
 function addIconToChat(event){
     if (event.target.classList.contains("user-card-div")){
-        let copy = event.target.outerHTML;
-        chattingWith.innerHTML = copy;
-        chattingWith.dataset.userId = event.target.dataset.userId
+      const icon = event.target.children[0].src
+      const name = event.target.children[1].innerText
+      const userId = event.target.dataset.userId
+      chattingWith.dataset.userId = userId
+      chattingWith.innerHTML = `<div data-user-id=${userId} class="user-card user-card-js user-card-div">
+      <img data-user-id=${userId} class="user-card-icon user-card-js" src="${icon}">
+      <p data-user-id=${userId} class="user-card-username user-card-js">${name}</p>
+      </div>`
     }
     else {
-        let copy = event.target.parentElement.outerHTML;
-        chattingWith.innerHTML = copy;
-        chattingWith.dataset.userId = event.target.dataset.userId
+      const icon = event.target.parentElement.children[0].src
+      const name = event.target.parentElement.children[1].innerText
+      const userId = event.target.dataset.userId
+      chattingWith.dataset.userId = userId
+      chattingWith.innerHTML = `<div data-user-id=${userId} class="user-card user-card-js user-card-div">
+      <img data-user-id=${userId} class="user-card-icon user-card-js" src="${icon}">
+      <p data-user-id=${userId} class="user-card-username user-card-js">${name}</p>
+      </div>`
     }
 }
 
@@ -131,7 +145,10 @@ function filterRecievedMessages(chattingUserId, msgArray){
 }
 
 function sortMessages(msgArray){
-    return msgArray.sort((a, b) => a.created_at - b.created_at);
+    function convertToUnix(x){
+	     return parseInt((new Date(x).getTime() / 1000).toFixed(0))
+    }
+    return msgArray.sort((a, b) => convertToUnix(a.created_at) - convertToUnix(b.created_at));
 }
 
 function handleMessages(chattingUserId, sentMessages, recievedMessages){
@@ -139,11 +156,12 @@ function handleMessages(chattingUserId, sentMessages, recievedMessages){
     const recieved = filterRecievedMessages(chattingUserId, recievedMessages);
     const msgArray = [...sent, ...recieved];
     const sorted = sortMessages(msgArray);
-    return sorted; 
+    return sorted;
 }
 
 
 function addAllMessagesToChat(data, currentUserId){
+    if (currentInterval){clearInterval(currentInterval)}
     chatBoxMessages.innerHTML = "";
     data.forEach(function(message){
         if (message.sender_id === currentUserId){
@@ -153,21 +171,22 @@ function addAllMessagesToChat(data, currentUserId){
             addRecievedMessageToChat(message)
         }
     });
-
+    // Set Interval
+    currentInterval = setInterval(countMessagesAndAlert, 1000);
 }
 
 function addSentMessageToChat(message) {
     chatBoxMessages.innerHTML += `<div class="message-card message-card-sent">
     <p data-message-id=${message.id} class="message">${message.content}</p>
     <button data-message-id=${message.id} class="replay-message-button">Replay</button>
-    </div>` 
+    </div>`
 }
 
 function addRecievedMessageToChat(message) {
     chatBoxMessages.innerHTML += `<div class="message-card message-card-recieved">
     <p data-message-id=${message.id} class="message">${message.content}</p>
     <button data-message-id=${message.id} class="replay-message-button">Replay</button>
-    </div>` 
+    </div>`
 }
 
 // Generate User Icons
@@ -180,7 +199,7 @@ function generateUserIcons(data){
     <p data-user-id=${user.id} class="user-card-username user-card-js">${user.username}</p>
         </div>`
     })
-    
+
 }
 
 function getUsers(){
@@ -195,10 +214,10 @@ function getUsers(){
 //Login/Register Users & Forms
 function handleLogin(event){
     event.preventDefault();
-    const usernameEntered = loginFormName.value 
+    const usernameEntered = loginFormName.value
     if (usernameEntered === ""){
         alert("Username cannot be empty")
-        return true 
+        return true
     }
     fetch(usersUrl)
     .then(res => res.json())
@@ -512,4 +531,25 @@ const keyData = {
 }
 
 displayForm(loginFormDiv);
- 
+
+// ## bottom two functions should be called every second
+
+function countMessagesAndAlert(){
+    let chattingUserId = parseInt(document.querySelector("#chatting-with-js").dataset.userId)
+    const currentUserId = usernameDisplay.dataset.currentUserId
+    fetch(usersUrl + `/${currentUserId}`)
+    .then(res => res.json())
+    .then(data => {
+        const sorted = handleMessages(chattingUserId, data.sent_messages, data.recieved_messages)
+        let updatedCount = sorted.length
+        let pageCount = document.querySelector(".chat-messages-css").children.length
+        if (updatedCount>pageCount){
+          let icon = document.querySelector("#user-container-js").querySelector(`[data-user-id='${chattingUserId}']`)
+          icon.classList.add("animated", "infinite", "bounce");
+        }
+    })
+}
+
+document.querySelector("#alert").addEventListener("click", e => {
+  countMessagesAndAlert()
+})

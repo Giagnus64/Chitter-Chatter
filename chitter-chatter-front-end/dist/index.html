@@ -9,10 +9,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
         <link rel="stylesheet" href="index.css">
         <script defer type="text/paperscript" canvas="myCanvas">
-        
-         
+
+
         var circles = [];
-            
+
         function onKeyDown(event) {
         	if (true) {
                 // generate random point
@@ -21,7 +21,7 @@
 	            var point = maxPoint * randomPoint;
 	            var newCircle = new Path.Circle(point, 400);
 	        	newCircle.fillColor = "blue";
-        	} 
+        	}
             // add a new circle to the circles array to draw
             circles.push(newCircle);
         }
@@ -37,7 +37,7 @@
                 }
         	}
         }
-        
+
         </script>
     </head>
     <body>
@@ -50,9 +50,9 @@
                 <canvas id="myCanvas" resize></canvas>
             </div>
 
-            <div class="chat-box chat-box-js">
+            <div class="chat-box chat-box-js" style="overflow-y:scroll">
                 <div class="chatting-with" id="chatting-with-js"></div>
-                <div class="chat-messages-css" id= "chat-messages-js">     
+                <div class="chat-messages-css" id= "chat-messages-js">
                 </div>
                 <div class="user-login-form-div-css form-hidden">
                     <h2 class="form-header">Login</h2>
@@ -94,8 +94,8 @@
                         <span class="username-message-form">USER:</span>
                         <input class="message-input-css" id="message-input-js" type="text" name="message">
                         <input class="submit-message-css" type="submit" value="Send Message">
-                        
-                    </form> 
+
+                    </form>
                 </div>
                 <div class="user-edit-buttons">
                     <button class="edit-user-button">Edit</button><button class="delete-user-button">Delete</button><button class="logout-button">Logout</button>
