@@ -549,7 +549,3 @@ function countMessagesAndAlert(){
         }
     })
 }
-
-document.querySelector("#alert").addEventListener("click", e => {
-  countMessagesAndAlert()
-})
