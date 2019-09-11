@@ -2,8 +2,16 @@
 //Login/Edit/Register Vars
 const loginFormDiv = document.querySelector(".user-login-form-div-css");
 const editFormDiv = document.querySelector(".user-edit-form-div-css");
+const editFormUsername = document.querySelector("#edit-form-username");
+const editFormIcon = document.querySelector("#edit-form-icon");
 const loginFormName = document.querySelector("#login-username-input")
 const loginForm = document.querySelector(".login-form-js");
+const editForm = document.querySelector("#edit-form-js");
+
+//User Button Vars
+const editUserBtn = document.querySelector(".edit-user-button");
+const deleteUserBtn = document.querySelector(".delete-user-button");
+const logoutBtn = document.querySelector(".logout-button");
 
 //User-Container-Vars
 const userContainer = document.querySelector("#user-container-js")
@@ -14,25 +22,30 @@ const registerFormName = document.querySelector("#register-username-input")
 const registerFormImage = document.querySelector("#register-icon-input")
 
 //chatbox vars
-const chattingWith = document.querySelector("#chatting-with-js")
-const chatBoxMessages = document.querySelector("#chat-messages-js")
+const chattingWith = document.querySelector("#chatting-with-js");
+const chatBoxMessages = document.querySelector("#chat-messages-js");
+const chatBox = document.querySelector(".chat-box-js");
 
 //message form vars
 const usernameDisplay = document.querySelector(".username-message-form");
 const currentUserImage = document.querySelector("#current-user-image");
 const messageForm = document.querySelector("#message-form-js");
-const messageInput = document.querySelector("#message-input-js")
+const messageInput = document.querySelector("#message-input-js");
 
 
 //Other Vars
 const usersUrl = "http://localhost:3000/users";
-const messagesUrl = "http://localhost:3000/messages"
+const messagesUrl = "http://localhost:3000/messages";
+const defaultUrl = "https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg"
 
 //Event Listeners
-loginForm.addEventListener('submit', handleLogin)
-registerForm.addEventListener('submit', handleRegister)
-userContainer.addEventListener("click", createChat)
-messageForm.addEventListener('submit', handleMessage)
+loginForm.addEventListener('submit', handleLogin);
+registerForm.addEventListener('submit', handleRegister);
+userContainer.addEventListener("click", createChat);
+messageForm.addEventListener('submit', handleMessage);
+editUserBtn.addEventListener('click', handleEdit);
+editForm.addEventListener('submit', editUser);
+
 
 // Functions
 //message form functions
@@ -64,7 +77,8 @@ function sendMessage(){
     .then(res => res.json())
     .then(data => {
         messageForm.reset();
-        addSentMessageToChat(data)});
+        addSentMessageToChat(data)})
+    .catch(err => alert(err));
 }
 
 //chat functions
@@ -98,6 +112,7 @@ function getMessages(chattingUserId){
         const sorted = handleMessages(chattingUserId, data.sent_messages, data.recieved_messages)
         addAllMessagesToChat(sorted, currentUserId);
     })
+    .catch(err => alert(err));
 }
 
 function filterSentMessages(chattingUserId, msgArray){
@@ -169,6 +184,7 @@ function getUsers(){
     fetch(usersUrl)
     .then(res => res.json())
     .then(data => generateUserIcons(data))
+    .catch(err => alert(err));
 }
 
 
@@ -185,13 +201,15 @@ function handleLogin(event){
     .then(res => res.json())
     .then(data => {
         const userObj = data.find(e=>{return e.username === usernameEntered})
-        if (userObj){assignUsername(userObj)}
-        else {alert("Username does not exist")}
+        if (userObj){
+            assignUsername(userObj);
+            afterLogin();
+        }
+        else {
+            alert("Username does not exist");
+        }
     })
-    .then(e => {
-        hideForm(loginFormDiv)
-        getUsers();
-    })
+    .catch(err => alert(err));
 }
 
 function handleRegister(event){
@@ -208,10 +226,10 @@ function handleRegister(event){
         if (userObj){alert("Username already taken")}
         else {postUserToDatabase(usernameEntered, registerFormImage.value)} 
     })   
+    .catch(err => alert(err));
 }
 
 function postUserToDatabase(username, image){
-    let defaultUrl = "https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg"
     let imageUrl = (image === "") ? defaultUrl : image
     fetch(usersUrl, {
         method: "POST",
@@ -220,23 +238,75 @@ function postUserToDatabase(username, image){
     })
     .then(resp => resp.json())
     .then(data => assignUsername(data))
-    .then(e => hideForm(loginFormDiv))
+    .then(e => {afterLogin()})
+    .catch(err => alert(err));
+}
+function afterLogin(){
+    hideForm(loginFormDiv);
+    getUsers();  
 }
 
 function assignUsername(userObj){
   usernameDisplay.dataset.currentUserId = userObj.id
   currentUserImage.src = userObj.icon_url
-  usernameDisplay.innerText = userObj.username
+  usernameDisplay.innerText = userObj.username + ":"
 }
 
 function displayForm(form){
+    chattingWith.innerHTML = "";
+    chatBoxMessages.innerHTML = "";
     form.classList.remove("form-none");
     form.classList.add("display-modal");
 }
 
 function hideForm(form){
-    form.classList.add("form-none");
     form.classList.remove("display-modal");
+    form.classList.add("form-none");
+}
+
+function handleEdit(event){
+    const currUser = usernameDisplay.dataset.currentUserId
+    displayForm(editFormDiv);
+    fillEditForm();
+}
+function fillEditForm(){
+    const usernameColon = usernameDisplay.textContent;
+    editFormUsername.value = usernameColon.substring(0, usernameColon.length - 1);
+    editFormIcon.value = currentUserImage.src;
+}
+function editUser(e){
+    e.preventDefault();
+    const newUsername = editFormUsername.value
+    const currUser = usernameDisplay.dataset.currentUserId
+    const newIcon = editFormIcon.value
+    let imageUrl = (newIcon === "") ? defaultUrl : newIcon
+     if(newUsername === ""){
+        alert("Username cannot be blank!");
+        return true;
+     } else{
+         sendEditToDb(currUser, newUsername, newIcon);
+    }
+}
+
+function sendEditToDb(currUser, newUsername, newIcon){
+    fetch(usersUrl + `/${currUser}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            username: newUsername,
+            icon_url: newIcon
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            assignUsername(data);
+            hideForm(editFormDiv);
+            getUsers();
+        })
+        .catch(err => alert(err));
 }
 
 displayForm(loginFormDiv);

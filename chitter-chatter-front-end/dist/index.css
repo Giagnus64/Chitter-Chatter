@@ -18,6 +18,7 @@ body, html{
 .animation-box{
     background-color: greenyellow;
     grid-area: animationBox;
+    border: 2px inset black;
 }
 canvas{
     width:100%;
@@ -79,6 +80,10 @@ canvas{
 }
 .message-input-css, .submit-message-css, .username-message-form{
     font-size:1.3rem;
+    margin-right:5px;
+}
+.username-message-form{
+    margin-right:5px;
 }
 .message-form{ 
     display:flex;
@@ -111,6 +116,7 @@ canvas{
     text-align: center;
     border: 5px solid black;
     border-radius:15px;
+    width:100%;
 }
 .user-login-form-div-css{
     font-size: 1.3rem;
@@ -142,6 +148,5 @@ canvas{
     opacity:1;
     transition:all ease 2000ms;
     transform-origin: bottom center;
-
 }
 

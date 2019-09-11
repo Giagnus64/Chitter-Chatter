@@ -50,7 +50,7 @@
                 <canvas id="myCanvas" resize></canvas>
             </div>
 
-            <div class="chat-box">
+            <div class="chat-box chat-box-js">
                 <div class="chatting-with" id="chatting-with-js"></div>
                 <div class="chat-messages-css" id= "chat-messages-js">     
                 </div>
@@ -72,17 +72,17 @@
                     </form>
                 </div>
                 <div class="user-edit-form-div-css form-hidden form-none">
-                    <h2 class="form-header">Register</h2>
-                    <form class="edit-form-js">
+                    <h2 class="form-header">Edit User:</h2>
+                    <form id="edit-form-js">
                         <div class="username-input-edit">
                             <label for="username">Username:</label>
-                            <input type="text" name="username">
+                            <input id="edit-form-username" type="text" name="username">
                         </div>
                         <div class="icon-url-input">
                             <label for="icon_url">Icon URL:</label>
-                            <input type="text" name="icon_url">
+                            <input id="edit-form-icon" type="text" name="icon_url">
                         </div>
-                        <input type="submit" value="Register">
+                        <input type="submit" value="Edit">
                     </form>
                 </div>
             </div>
@@ -98,11 +98,11 @@
                     </form> 
                 </div>
                 <div class="user-edit-buttons">
-                    <button>Edit</button><button>Delete</button>
+                    <button class="edit-user-button">Edit</button><button class="delete-user-button">Delete</button><button class="logout-button">Logout</button>
                 </div>
             </div>
         </div>
 
-        <script src="main.js"defer></script>
+        <script src="index.js"defer></script>
     </body>
 </html>
