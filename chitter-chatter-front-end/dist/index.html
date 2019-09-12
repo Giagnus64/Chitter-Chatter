@@ -59,8 +59,10 @@
                 <div class="user-login-form-div-css form-hidden">
                     <h2 class="form-header">Login</h2>
                     <form class="login-form-js">
+                        <div>
                         <label for="username">Username:</label>
                         <input type="text" name="username" id="login-username-input">
+                        </div>
                         <input type="submit" value="Login">
                         <br>
                     </form>
@@ -68,8 +70,10 @@
                     <form class="register-form">
                         <label for="new-username">Username:</label>
                         <input type="text" name="new-username" id="register-username-input">
+                        <div class="icon-form-register">
                         <label for="icon_url">Icon URL:</label>
                         <input type="url" name="icon_url" id="register-icon-input">
+                        </div>
                         <input type="submit" value="Register" id="register-submit-button">
                     </form>
                 </div>
@@ -94,13 +98,12 @@
                         <img class="user-image-css" id="current-user-image"
                             src="https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg" alt="">
                         <span class="username-message-form">USER:</span>
-                        <input class="message-input-css" id="message-input-js" type="text" name="message">
+                        <input class="message-input-css" id="message-input-js" type="text" name="message" size="54">
                         <input class="submit-message-css" type="submit" value="Send Message">
-
                     </form>
                 </div>
                 <div class="user-edit-buttons">
-                    <button class="edit-user-button">Edit</button><button class="delete-user-button">Delete</button><button class="logout-button">Logout</button>
+                    <button id="stop-all">Silence</button></button><button class="edit-user-button">Edit</button><button class="delete-user-button">Delete</button><button class="logout-button">Logout</button>
                 </div>
             </div>
         </div>

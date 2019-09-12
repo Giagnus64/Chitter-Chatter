@@ -14,6 +14,7 @@ const editForm = document.querySelector("#edit-form-js");
 const editUserBtn = document.querySelector(".edit-user-button");
 const deleteUserBtn = document.querySelector(".delete-user-button");
 const logoutBtn = document.querySelector(".logout-button");
+const silenceBtn = document.querySelector("#stop-all");
 
 //User-Container-Vars
 const userContainer = document.querySelector("#user-container-js")
@@ -35,6 +36,9 @@ const messageForm = document.querySelector("#message-form-js");
 const messageInput = document.querySelector("#message-input-js")
 let currentInterval
 let animFunc
+let codePosition1 = 0;
+let codePosition2 = 0;
+let muted = false;
 
 
 //Other Vars
@@ -52,6 +56,7 @@ editForm.addEventListener('submit', editUser);
 deleteUserBtn.addEventListener('click', deleteUser);
 logoutBtn.addEventListener('click', logoutUser);
 chatBoxMessages.addEventListener('click', handleReplay);
+silenceBtn.addEventListener('click', silenceSounds);
 
 // Functions
 //message form functions
@@ -76,8 +81,8 @@ function sendMessage(){
         },
         body: JSON.stringify({
             content: messageInput.value,
-            sender_id: chattingWith.dataset.userId,
-            reciever_id: usernameDisplay.dataset.currentUserId
+            sender_id: usernameDisplay.dataset.currentUserId,
+            reciever_id: chattingWith.dataset.userId
         })
     })
     .then(res => res.json())
@@ -90,6 +95,7 @@ function sendMessage(){
 //chat functions
 function createChat(event){
     if (event.target.classList.contains("user-card-js")){
+        hideForm(editFormDiv);
         const chattingUser = event.target.dataset.userId
         addIconToChat(event);
         getMessages(chattingUser);
@@ -105,7 +111,7 @@ function addIconToChat(event){
       const name = event.target.children[1].innerText
       const userId = event.target.dataset.userId
       chattingWith.dataset.userId = userId
-      chattingWith.innerHTML = `<div data-user-id=${userId} class="user-card user-card-js user-card-div">
+      chattingWith.innerHTML = `<div data-user-id=${userId} class="user-card user-card-js user-card-div" id="user-card-chatting-with">
       <img data-user-id=${userId} class="user-card-icon user-card-js" src="${icon}">
       <p data-user-id=${userId} class="user-card-username user-card-js">${name}</p>
       </div>`
@@ -115,9 +121,9 @@ function addIconToChat(event){
       const name = event.target.parentElement.children[1].innerText
       const userId = event.target.dataset.userId
       chattingWith.dataset.userId = userId
-      chattingWith.innerHTML = `<div data-user-id=${userId} class="user-card user-card-js user-card-div">
+      chattingWith.innerHTML = `<div data-user-id=${userId} class="user-card user-card-js user-card-div" id="user-card-chatting-with">
       <img data-user-id=${userId} class="user-card-icon user-card-js" src="${icon}">
-      <p data-user-id=${userId} class="user-card-username user-card-js">${name}</p>
+      <p data-user-id=${userId} class="user-card-username user-card-js animated infinite pulse">${name}</p>
       </div>`
     }
 }
@@ -166,7 +172,8 @@ function addAllMessagesToChat(data, currentUserId){
     if (currentInterval){clearInterval(currentInterval)}
     chatBoxMessages.innerHTML = "";
     data.forEach(function(message){
-        if (message.sender_id === currentUserId){
+        
+        if (message.sender_id === parseInt(currentUserId)){
             addSentMessageToChat(message)
         }
         else{
@@ -178,14 +185,14 @@ function addAllMessagesToChat(data, currentUserId){
 }
 
 function addSentMessageToChat(message) {
-    chatBoxMessages.innerHTML += `<div class="message-card message-card-sent">
+    chatBoxMessages.innerHTML += `<div class="message-card message-card-sent-css">
     <p data-message-id=${message.id} class="message">${message.content}</p>
-    <button data-message-id=${message.id} class="replay-message-button">Replay</button>
+    <button data-message-id=${message.id} class="replay-message-button replay-message-button-js">Replay</button>
     </div>`
 }
 
 function addRecievedMessageToChat(message) {
-    chatBoxMessages.innerHTML += `<div class="message-card message-card-recieved">
+    chatBoxMessages.innerHTML += `<div class="message-card message-card-recieved-css">
     <p data-message-id=${message.id} class="message">${message.content}</p>
     <button data-message-id=${message.id} class="replay-message-button replay-message-button-js">Replay</button>
     </div>`
@@ -276,6 +283,7 @@ function postUserToDatabase(username, image){
     .then(e => {afterLogin()})
     .catch(err => alert(err));
 }
+
 function afterLogin(){
     hideForm(loginFormDiv);
     getUsers();  
@@ -308,11 +316,13 @@ function handleEdit(event){
         fillEditForm();
     }
 }
+
 function fillEditForm(){
     const usernameColon = usernameDisplay.textContent;
     editFormUsername.value = usernameColon.substring(0, usernameColon.length - 1);
     editFormIcon.value = currentUserImage.src;
 }
+
 function editUser(e){
     e.preventDefault();
     const newUsername = editFormUsername.value
@@ -392,16 +402,60 @@ function countMessagesAndAlert() {
         })
 }
 
-//Sound functions
+//Sound and Animation functions
 
-document.addEventListener('keyup', checkKey);
+document.addEventListener('keydown', checkKey);
 
 function checkKey(event) {
+    checkLumosCode(event);
+    checkPirateCode(event);
     if (keyData[event.key]) {
         keyData[event.key].sound.play();
         animFunc.makeCircle();
     }
 }
+function checkLumosCode(event){
+    const code = ['l','u','m','o','s'];
+    const keyPressed = event.key;
+    const required = code[codePosition1]; 
+    if(keyPressed == required){
+        codePosition1++;
+        if(codePosition1 == code.length){
+            secretPirateCodeFunc();
+            codePosition1 = 0;
+        }
+    } else{
+        codePosition1 = 0;
+    }
+}
+function checkPirateCode(event) {
+    const code = ['a', 'v', 'a', 's', 't'];
+    const keyPressed = event.key;
+    const required = code[codePosition2];
+    if (keyPressed == required) {
+        codePosition2++;
+        if (codePosition2 == code.length) {
+            secretWizardCodeFunc();
+            codePosition2 = 0;
+        }
+    } else {
+        codePosition2 = 0;
+    }
+}
+
+function secretWizardCodeFunc(){
+   const wizardSound = new Howl({
+       src: [require('./sounds/wizard.mp3')]
+   })
+   wizardSound.play();
+}
+function secretPirateCodeFunc(){
+   const pirateSound = new Howl({
+       src: [require('./sounds/pirate.mp3')]
+   })
+   pirateSound.play();
+}
+
 
 const keyData = {
     q: {
@@ -561,25 +615,29 @@ const keyData = {
     }
 }
 function triggerKey(key) {
-    let event = new KeyboardEvent('keyup', {
-        'key': key,
+    let event = new KeyboardEvent('keydown', {
+        'key': key
     });
     document.dispatchEvent(event);
 }
+function silenceSounds(e){
+    Howler._howls.forEach(howl => howl.stop())
 
+    if(muted){
+        Howler.mute(false);
+        muted = false;
+        e.target.innerText = "Silence"
+    }else{
+        Howler.mute(true);
+        muted = true;
+        e.target.innerText = "Unsilence"
+    }
+    
+}
 document.addEventListener("DOMContentLoaded", function() {
     setTimeout(function () {
         animFunc = window.myLib
     }, 500)
 });
-
-// test code 
-// const im = "Hey there!"
-// const arr = im.split('');
-// console.log(arr);
-// arr.forEach((letter, index) => {
-//     setTimeout(function(){
-//         triggerKey(letter)}, 250*index);
-// });
 
 displayForm(loginFormDiv);
