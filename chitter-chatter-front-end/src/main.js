@@ -34,6 +34,7 @@ const currentUserImage = document.querySelector("#current-user-image");
 const messageForm = document.querySelector("#message-form-js");
 const messageInput = document.querySelector("#message-input-js")
 let currentInterval
+let animFunc
 
 
 //Other Vars
@@ -50,6 +51,7 @@ editUserBtn.addEventListener('click', handleEdit);
 editForm.addEventListener('submit', editUser);
 deleteUserBtn.addEventListener('click', deleteUser);
 logoutBtn.addEventListener('click', logoutUser);
+chatBoxMessages.addEventListener('click', handleReplay);
 
 // Functions
 //message form functions
@@ -185,8 +187,19 @@ function addSentMessageToChat(message) {
 function addRecievedMessageToChat(message) {
     chatBoxMessages.innerHTML += `<div class="message-card message-card-recieved">
     <p data-message-id=${message.id} class="message">${message.content}</p>
-    <button data-message-id=${message.id} class="replay-message-button">Replay</button>
+    <button data-message-id=${message.id} class="replay-message-button replay-message-button-js">Replay</button>
     </div>`
+}
+
+function handleReplay(event){
+    if(event.target.classList.contains('replay-message-button-js')){
+        const msg = event.target.previousElementSibling.textContent;
+        const msgArr = msg.split("");
+        msgArr.forEach(function(letter, index){
+        setTimeout(function(){
+        triggerKey(letter)}, 250*index);
+        })
+    }
 }
 
 // Generate User Icons
@@ -361,15 +374,33 @@ function resetForms(){
     registerForm.reset();
 }
 
+// ## bottom two functions should be called every second
+
+function countMessagesAndAlert() {
+    let chattingUserId = parseInt(document.querySelector("#chatting-with-js").dataset.userId)
+    const currentUserId = usernameDisplay.dataset.currentUserId
+    fetch(usersUrl + `/${currentUserId}`)
+        .then(res => res.json())
+        .then(data => {
+            const sorted = handleMessages(chattingUserId, data.sent_messages, data.recieved_messages)
+            let updatedCount = sorted.length
+            let pageCount = document.querySelector(".chat-messages-css").children.length
+            if (updatedCount > pageCount) {
+                let icon = document.querySelector("#user-container-js").querySelector(`[data-user-id='${chattingUserId}']`)
+                icon.classList.add("animated", "infinite", "bounce");
+            }
+        })
+}
 
 //Sound functions
 
-document.addEventListener('keypress', checkKey);
+document.addEventListener('keyup', checkKey);
 
-function checkKey(event){
- if(keyData[event.key]){
-     keyData[event.key].sound.play();
- }
+function checkKey(event) {
+    if (keyData[event.key]) {
+        keyData[event.key].sound.play();
+        animFunc.makeCircle();
+    }
 }
 
 const keyData = {
@@ -377,103 +408,103 @@ const keyData = {
         sound: new Howl({
             src: [require('./sounds/bubbles.mp3')]
         })
-        
+
     },
     w: {
         sound: new Howl({
             src: [require('./sounds/clay.mp3')]
         })
-        
+
     },
     e: {
         sound: new Howl({
             src: [require('./sounds/confetti.mp3')]
         })
-        
+
     },
     r: {
         sound: new Howl({
             src: [require('./sounds/corona.mp3')]
         })
-        
+
     },
     t: {
         sound: new Howl({
             src: [require('./sounds/dotted-spiral.mp3')]
         })
-        
+
     },
     y: {
         sound: new Howl({
             src: [require('./sounds/flash-1.mp3')]
         })
-        
+
     },
     u: {
         sound: new Howl({
             src: [require('./sounds/flash-2.mp3')]
         })
-       
+
     },
     i: {
         sound: new Howl({
             src: [require('./sounds/flash-3.mp3')]
         })
-        
+
     },
     o: {
         sound: new Howl({
             src: [require('./sounds/glimmer.mp3')]
         })
-       
+
     },
     p: {
         sound: new Howl({
             src: [require('./sounds/moon.mp3')]
         })
-        
+
     },
     a: {
         sound: new Howl({
             src: [require('./sounds/pinwheel.mp3')]
         })
-        
+
     },
     s: {
         sound: new Howl({
             src: [require('./sounds/piston-1.mp3')]
         })
-        
+
     },
     d: {
         sound: new Howl({
             src: [require('./sounds/piston-2.mp3')]
         })
-        
+
     },
     f: {
         sound: new Howl({
             src: [require('./sounds/prism-1.mp3')]
         })
-        
+
     },
     g: {
         sound: new Howl({
             src: [require('./sounds/prism-2.mp3')]
         })
-        
+
     },
     h: {
         sound: new Howl({
             src: [require('./sounds/prism-3.mp3')]
         })
-        
+
     },
     j: {
         sound: new Howl({
             src: [require('./sounds/splits.mp3')]
         })
-        
+
     },
     k: {
         sound: new Howl({
@@ -484,68 +515,71 @@ const keyData = {
         sound: new Howl({
             src: [require('./sounds/strike.mp3')]
         })
-       
+
     },
     z: {
         sound: new Howl({
             src: [require('./sounds/suspension.mp3')]
         })
-        
+
     },
     x: {
         sound: new Howl({
             src: [require('./sounds/timer.mp3')]
         })
-       
+
     },
     c: {
         sound: new Howl({
             src: [require('./sounds/ufo.mp3')]
         })
-       
+
     },
     v: {
         sound: new Howl({
             src: [require('./sounds/veil.mp3')]
         })
-        
+
     },
     b: {
         sound: new Howl({
             src: [require('./sounds/wipe.mp3')]
         })
-        
+
     },
     n: {
         sound: new Howl({
             src: [require('./sounds/zig-zag.mp3')]
         })
-        
+
     },
     m: {
         sound: new Howl({
             src: [require('./sounds/moon.mp3')]
         })
-        
+
     }
 }
+function triggerKey(key) {
+    let event = new KeyboardEvent('keyup', {
+        'key': key,
+    });
+    document.dispatchEvent(event);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function () {
+        animFunc = window.myLib
+    }, 500)
+});
+
+// test code 
+// const im = "Hey there!"
+// const arr = im.split('');
+// console.log(arr);
+// arr.forEach((letter, index) => {
+//     setTimeout(function(){
+//         triggerKey(letter)}, 250*index);
+// });
 
 displayForm(loginFormDiv);
-
-// ## bottom two functions should be called every second
-
-function countMessagesAndAlert(){
-    let chattingUserId = parseInt(document.querySelector("#chatting-with-js").dataset.userId)
-    const currentUserId = usernameDisplay.dataset.currentUserId
-    fetch(usersUrl + `/${currentUserId}`)
-    .then(res => res.json())
-    .then(data => {
-        const sorted = handleMessages(chattingUserId, data.sent_messages, data.recieved_messages)
-        let updatedCount = sorted.length
-        let pageCount = document.querySelector(".chat-messages-css").children.length
-        if (updatedCount>pageCount){
-          let icon = document.querySelector("#user-container-js").querySelector(`[data-user-id='${chattingUserId}']`)
-          icon.classList.add("animated", "infinite", "bounce");
-        }
-    })
-}
