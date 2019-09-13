@@ -21,8 +21,8 @@ const userContainer = document.querySelector("#user-container-js")
 
 //RegisterForm
 const registerForm = document.querySelector(".register-form")
+const registerFormIconDiv = document.querySelector(".icon-form-register")
 const registerFormName = document.querySelector("#register-username-input")
-const registerFormImage = document.querySelector("#register-icon-input")
 
 //chatbox vars
 const chattingWith = document.querySelector("#chatting-with-js");
@@ -232,6 +232,23 @@ function getUsers(){
 
 
 //Login/Register Users & Forms
+function addSelectToRegister(){
+    const select = document.createElement("select")
+    select.id = "register-icon-input"
+    const arrayOfIcons = {
+        "harry": defaultUrl,
+        "hermione":"https://data.junkee.com/wp-content/uploads/2018/03/hermione.jpg",
+        "ron":"https://media.thetab.com/blogs.dir/27/files/2013/03/Ron-weasley.jpg"
+    }
+    for (let name in arrayOfIcons){
+        document.createElement("option")
+        select.innerHTML += `<option value=${arrayOfIcons[name]}>${name}</option>`
+    }
+    registerFormIconDiv.appendChild(select)
+}
+
+addSelectToRegister()
+
 function handleLogin(event){
     event.preventDefault();
     const usernameEntered = loginFormName.value
@@ -266,7 +283,9 @@ function handleRegister(event){
     .then(data=>{
         const userObj = data.find(e => { return e.username === usernameEntered })
         if (userObj){alert("Username already taken")}
-        else {postUserToDatabase(usernameEntered, registerFormImage.value)} 
+        else {
+            const registerFormImage = document.querySelector("#register-icon-input")
+            postUserToDatabase(usernameEntered, registerFormImage.value)} 
     })   
     .catch(err => alert(err));
 }
