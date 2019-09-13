@@ -42,8 +42,8 @@ let muted = false;
 
 
 //Other Vars
-const usersUrl = "http://localhost:3000/users";
-const messagesUrl = "http://localhost:3000/messages";
+const usersUrl = "https://chitter-chatter-api.herokuapp.com/users";
+const messagesUrl = "https://chitter-chatter-api.herokuapp.com/messages";
 const defaultUrl = "https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg"
 
 //Event Listeners
