@@ -233,6 +233,7 @@ canvas{
 
 .form-hidden{
     opacity:0;
+    transition: all ease-in 2000ms;
 }
 .form-none{
     display:none;
@@ -247,7 +248,7 @@ canvas{
     background-color: white;
     min-height: 200px;
     opacity:1;
-    transition:all ease 2000ms;
+    transition:all ease 1000ms;
     transform-origin: bottom center;
 }
 

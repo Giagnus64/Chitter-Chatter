@@ -34,6 +34,7 @@ const usernameDisplay = document.querySelector(".username-message-form");
 const currentUserImage = document.querySelector("#current-user-image");
 const messageForm = document.querySelector("#message-form-js");
 const messageInput = document.querySelector("#message-input-js")
+// other vars
 let currentInterval
 let animFunc
 let codePosition1 = 0;
@@ -41,7 +42,7 @@ let codePosition2 = 0;
 let muted = false;
 
 
-//Other Vars
+//URLVars
 const usersUrl = "https://chitter-chatter-api.herokuapp.com/users";
 const messagesUrl = "https://chitter-chatter-api.herokuapp.com/messages";
 const defaultUrl = "https://www.writeups.org/wp-content/uploads/Harry-Potter-Philosopher-Stone-era.jpg"
@@ -319,13 +320,13 @@ function displayForm(form){
     chattingWith.innerHTML = "";
     chatBoxMessages.innerHTML = "";
     form.classList.remove("form-none");
-    form.classList.add("display-modal");
+    setTimeout( e => form.classList.add("display-modal"), 200);
 }
 
 function hideForm(form){
     resetForms();
     form.classList.remove("display-modal");
-    form.classList.add("form-none");
+    setTimeout((e) => form.classList.add("form-none"), 1500);
 }
 
 function handleEdit(event){
@@ -428,7 +429,7 @@ document.addEventListener('keydown', checkKey);
 function checkKey(event) {
     checkLumosCode(event);
     checkPirateCode(event);
-    if (keyData[event.key]) {
+    if (keyData[event.key.toLowerCase()]) {
         keyData[event.key].sound.play();
         animFunc.makeCircle();
     }
